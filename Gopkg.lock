@@ -3,13 +3,19 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/afex/hystrix-go"
+  packages = ["hystrix","hystrix/metric_collector","hystrix/rolling"]
+  revision = "f118cd938f786d24f46cc307981d8f63b7951020"
+
+[[projects]]
+  branch = "master"
   name = "github.com/beorn7/perks"
   packages = ["quantile"]
   revision = "4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9"
 
 [[projects]]
   name = "github.com/go-kit/kit"
-  packages = ["endpoint","log","metrics","metrics/internal/lv","metrics/prometheus","transport/http"]
+  packages = ["circuitbreaker","endpoint","log","metrics","metrics/internal/lv","metrics/prometheus","ratelimit","sd","sd/lb","transport/http"]
   revision = "4dc7be5d2d12881735283bcab7352178e190fc71"
   version = "v0.6.0"
 
@@ -30,6 +36,12 @@
   name = "github.com/golang/protobuf"
   packages = ["proto"]
   revision = "1e59b77b52bf8e4b449a57e6f79f21226d571845"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/juju/ratelimit"
+  packages = ["."]
+  revision = "59fac5042749a5afb9af70e813da1dd5474f0167"
 
 [[projects]]
   branch = "master"
@@ -67,9 +79,33 @@
   packages = [".","xfs"]
   revision = "a6e9df898b1336106c743392c48ee0b71f5c4efa"
 
+[[projects]]
+  name = "github.com/sony/gobreaker"
+  packages = ["."]
+  revision = "e9556a45379ef1da12e54847edb2fb3d7d566f36"
+  version = "0.3.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/streadway/handy"
+  packages = ["breaker"]
+  revision = "f450267a206e480d863d2a92846a40f6e2896b2a"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/net"
+  packages = ["context"]
+  revision = "dc871a5d77e227f5bbf6545176ef3eeebf87e76e"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/time"
+  packages = ["rate"]
+  revision = "6dc17368e09b0e8634d71cac8168d853e869a0c7"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "8d65b0b0595c730e999565974199375ba1ee8572df49a19a033556838a1d9a48"
+  inputs-digest = "482cd1787ecc991026a30429a54eaba7b1c4df4b49cc1eeb87fa0ee2b2a08746"
   solver-name = "gps-cdcl"
   solver-version = 1

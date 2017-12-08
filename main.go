@@ -11,12 +11,13 @@ import (
 	"github.com/go-kit/kit/log"
 	kitprometheus "github.com/go-kit/kit/metrics/prometheus"
 	httptransport "github.com/go-kit/kit/transport/http"
+	"context"
 )
 
 func main() {
 	var (
 		listen    = flag.String("listen", ":8080", "HTTP listen address")
-		//uppercase = flag.String("upercase", "", "Optional comma-separated list of URLs for uppercase service")
+		uppercase = flag.String("upercase", "localhost:8181", "Optional comma-separated list of URLs for uppercase service")
 	)
 	flag.Parse()
 
@@ -46,6 +47,7 @@ func main() {
 
 	var svc GreetingService
 	svc = greetingService{}
+	svc = uppercaseMiddleware(context.Background(), *uppercase, logger)(svc)
 	svc = loggingMiddleware(logger)(svc)
 	svc = instrumentingMiddleware(requestCount, requestLatency, countResult)(svc)
 

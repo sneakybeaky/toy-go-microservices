@@ -6,6 +6,8 @@ import (
 	"net/http"
 
 	"github.com/go-kit/kit/endpoint"
+	"bytes"
+	"io/ioutil"
 )
 
 func makeGreetEndpoint(svc GreetingService) endpoint.Endpoint {
@@ -31,6 +33,23 @@ func encodeResponse(_ context.Context, w http.ResponseWriter, response interface
 	return json.NewEncoder(w).Encode(response)
 }
 
+func decodeUppercaseResponse(_ context.Context, r *http.Response) (interface{}, error) {
+	var response uppercaseResponse
+	if err := json.NewDecoder(r.Body).Decode(&response); err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
+func encodeRequest(_ context.Context, r *http.Request, request interface{}) error {
+	var buf bytes.Buffer
+	if err := json.NewEncoder(&buf).Encode(request); err != nil {
+		return err
+	}
+	r.Body = ioutil.NopCloser(&buf)
+	return nil
+}
+
 type greetRequest struct {
 	S string `json:"s"`
 }
@@ -40,3 +59,6 @@ type uppercaseResponse struct {
 	Err string `json:"err,omitempty"`
 }
 
+type uppercaseRequest struct {
+	S string `json:"s"`
+}
