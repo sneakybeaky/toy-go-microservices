@@ -29,7 +29,7 @@ resources:
 
 
 jobs:
-- name: build-docker
+- name: publish-image
   plan:
   - get: greet-service
     trigger: true
