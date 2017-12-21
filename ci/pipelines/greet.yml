@@ -1,3 +1,10 @@
+resource_types:
+- name: kubernetes
+  type: docker-image
+  source:
+    repository: zlabjp/kubernetes-resource
+    tag: "1.8"
+
 resources:
 - name: greet-service
   type: git
@@ -16,6 +23,14 @@ resources:
     aws_access_key_id: ((aws_ecr_access_key_id))
     aws_secret_access_key: ((aws_ecr_secret_access_key))
 
+- name: kubernetes-production
+  type: kubernetes
+  source:
+    server: ((k8s_api_url))
+    namespace: production
+    token: ((k8s_token))
+    certificate_authority: ((k8s_ca_cert))
+
 - name: version
   type: semver
   source:
@@ -33,13 +48,26 @@ jobs:
   plan:
   - get: greet-service
     trigger: true
-  - get: version
+  - put: version
     params: {bump: patch}
   - put: greetservice-image
     params:
       build: greet-service
       tag: version/version
       tag_as_latest: true
-  - put: version
-    params: {file: version/version}
+
+
+- name: deploy
+  plan:
+  - get: version
+    passed: [publish-image]
+  - get: greet-service
+    passed: [publish-image]
+  - task: assemble-k8s-template
+    file: greet-service/ci/tasks/assemble-k8s-template.yaml
+  - put: kubernetes-production
+    params:
+      kubectl: apply -f k8s-template/deploy.yaml
+      wait_until_ready_selector: app=front-service
+
 
