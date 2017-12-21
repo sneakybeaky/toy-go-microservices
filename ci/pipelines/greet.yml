@@ -26,7 +26,7 @@ resources:
   type: kubernetes
   source:
     server: ((k8s_api_url))
-    namespace: production
+    namespace: default
     token: ((k8s_token))
     certificate_authority: ((k8s_ca_cert))
 
@@ -62,7 +62,7 @@ jobs:
     passed: [publish-image]
   - get: greet-service
     passed: [publish-image]
-  - task: assemble-k8s-template
+  - task: assemble-template
     file: greet-service/ci/tasks/assemble-template.yaml
   - put: kubernetes-production
     params:
