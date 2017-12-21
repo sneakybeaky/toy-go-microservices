@@ -9,7 +9,8 @@ inputs:
 - name: version
 - name: greet-service
 
-outputs: k8s-template
+outputs:
+- name: k8s-template
 
 run:
   path: ./greet-service/ci/tasks/scripts/assemble-k8s-template.sh
