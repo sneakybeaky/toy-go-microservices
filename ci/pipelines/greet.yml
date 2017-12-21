@@ -28,7 +28,7 @@ resources:
     server: ((k8s_api_url))
     namespace: default
     token: ((k8s_token))
-    certificate_authority: ((k8s_ca_cert))
+    insecure_skip_tls_verify: true
 
 - name: version
   type: semver
