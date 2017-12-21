@@ -35,7 +35,7 @@ resources:
   source:
     driver: git
     uri: git@github.com:sneakybeaky/toy-go-microservices.git
-    branch: master
+    branch: version
     file: version
     private_key: ((version-repo-private-key))
     depth: 1
