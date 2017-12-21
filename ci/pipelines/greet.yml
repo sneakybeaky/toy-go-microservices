@@ -1,0 +1,45 @@
+resources:
+- name: greet-service
+  type: git
+  source:
+    uri: https://github.com/sneakybeaky/toy-go-microservices.git
+    branch: master
+    ignore_paths:
+    - ci/**
+    - version
+    - README.md
+
+- name: greetservice-image
+  type: docker-image
+  source:
+    repository: 102184001161.dkr.ecr.us-east-1.amazonaws.com/test-front-service
+    aws_access_key_id: ((aws_ecr_access_key_id))
+    aws_secret_access_key: ((aws_ecr_secret_access_key))
+
+- name: version
+  type: semver
+  source:
+    driver: git
+    uri: git@github.com:sneakybeaky/toy-go-microservices.git
+    branch: master
+    file: version
+    private_key: ((version-repo-private-key))
+    depth: 1
+    initial_version: 0.0.1
+
+
+jobs:
+- name: build-docker
+  plan:
+  - get: greet-service
+    trigger: true
+  - get: version
+    params: {bump: patch}
+  - put: greetservice-image
+    params:
+      build: greet-service
+      tag: version/version
+      tag_as_latest: true
+  - put: version
+    params: {file: version/version}
+
