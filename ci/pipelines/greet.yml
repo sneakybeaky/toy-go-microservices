@@ -12,7 +12,6 @@ resources:
     uri: https://github.com/sneakybeaky/toy-go-microservices.git
     branch: master
     ignore_paths:
-    - ci/**
     - version
     - README.md
 
