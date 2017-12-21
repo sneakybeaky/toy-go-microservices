@@ -63,10 +63,10 @@ jobs:
   - get: greet-service
     passed: [publish-image]
   - task: assemble-k8s-template
-    file: greet-service/ci/tasks/assemble-k8s-template.yaml
+    file: greet-service/ci/tasks/assemble-template.yaml
   - put: kubernetes-production
     params:
-      kubectl: apply -f k8s-template/deploy.yaml
+      kubectl: apply -f kubernetes-template/deploy.yaml
       wait_until_ready_selector: app=front-service
 
 

@@ -10,7 +10,7 @@ inputs:
 - name: greet-service
 
 outputs:
-- name: k8s-template
+- name: kubernetes-template
 
 run:
-  path: greet-service/ci/tasks/scripts/assemble-k8s-template.sh
+  path: greet-service/ci/tasks/scripts/assemble-template.sh
