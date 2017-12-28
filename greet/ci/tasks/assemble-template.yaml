@@ -7,8 +7,8 @@ image_resource:
 
 inputs:
 - name: version
-- name: service
-  path: greet-service/greet
+- name: greet-service
+  path: source
 
 outputs:
 - name: kubernetes-template
