@@ -13,9 +13,6 @@ resources:
     branch: master
     paths:
     - greet/*
-    ignore_paths:
-    - greet/version
-    - greet/README.md
 
 - name: greetservice-image
   type: docker-image
