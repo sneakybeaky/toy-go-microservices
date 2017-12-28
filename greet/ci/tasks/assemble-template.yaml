@@ -14,4 +14,4 @@ outputs:
 - name: kubernetes-template
 
 run:
-  path: greet-service/ci/tasks/scripts/assemble-template.sh
+  path: source/greet/ci/tasks/scripts/assemble-template.sh
