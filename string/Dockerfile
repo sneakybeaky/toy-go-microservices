@@ -5,5 +5,4 @@ COPY . .
 
 RUN go-wrapper install    # "go install -v ./..."
 
-ENV stringsvc="http://localhost:8181"
-CMD go-wrapper run -stringservice $stringsvc
+CMD go-wrapper run
