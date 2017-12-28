@@ -1,0 +1,17 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: busybox}
+
+inputs:
+- name: version
+- name: string-service
+  path: source
+
+outputs:
+- name: kubernetes-template
+
+run:
+  path: source/string/ci/tasks/scripts/assemble-template.sh
