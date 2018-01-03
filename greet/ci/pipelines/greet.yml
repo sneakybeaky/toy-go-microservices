@@ -59,7 +59,16 @@ jobs:
     params:
       build: greet-service/greet
       tag: version/version
-      tag_as_latest: true
+
+- name: k8s-template
+  plan:
+  - get: version
+    passed: [publish-image]
+  - get: greet-service
+    trigger: true
+    passed: [publish-image]
+  - get: greetservice-image
+    passed: [publish-image]
   - task: assemble-template
     file: greet-service/greet/ci/tasks/assemble-template.yaml
     params:
@@ -69,11 +78,10 @@ jobs:
     params:
       file: kubernetes-template/release-*.yaml
 
-
 - name: deploy
   plan:
   - get: deployment-template
-    passed: [publish-image]
+    passed: [k8s-template]
   - put: kubernetes-production
     params:
       kubectl: apply -f deployment-template/release-*.yaml
