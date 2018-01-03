@@ -32,13 +32,20 @@ resources:
 - name: version
   type: semver
   source:
-    driver: git
-    uri: git@github.com:sneakybeaky/toy-go-microservices.git
-    branch: version
-    file: string/version
-    private_key: ((version-repo-private-key))
-    depth: 1
+    driver: s3
+    bucket: ((aws_s3_bucket_name))
+    key: versions/string-service
+    access_key_id: ((aws_s3_access_key_id))
+    secret_access_key: ((aws_s3_secret_access_key))
     initial_version: 0.0.0
+
+- name: deployment-template
+  type: s3
+  source:
+    bucket: ((aws_s3_bucket_name))
+    regexp: k8s/string-service/release-(.*).yaml
+    access_key_id: ((aws_s3_access_key_id))
+    secret_access_key: ((aws_s3_secret_access_key))
 
 
 jobs:
@@ -52,20 +59,33 @@ jobs:
     params:
       build: string-service/string
       tag: version/version
-      tag_as_latest: true
 
-
-- name: deploy
+- name: k8s-template
   plan:
   - get: version
     passed: [publish-image]
   - get: string-service
     passed: [publish-image]
+  - get: stringservice-image
+    passed: [publish-image]
+    trigger: true
   - task: assemble-template
-    file: greet-service/string/ci/tasks/assemble-template.yaml
+    file: string-service/string/ci/tasks/assemble-template.yaml
+    params:
+      DOCKER_IMAGE: ((ecr_repo))
+      VERSION_FILE: version/version
+      DIGEST_FILE: stringservice-image/digest
+  - put: deployment-template
+    params:
+      file: kubernetes-template/release-*.yaml
+
+- name: deploy
+  plan:
+  - get: deployment-template
+    passed: [k8s-template]
   - put: kubernetes-production
     params:
-      kubectl: apply -f kubernetes-template/deploy.yaml
+      kubectl: apply -f deployment-template/release-*.yaml
       wait_until_ready_selector: app=string-service
 
 
