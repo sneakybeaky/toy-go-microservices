@@ -62,6 +62,9 @@ jobs:
       tag_as_latest: true
   - task: assemble-template
     file: greet-service/greet/ci/tasks/assemble-template.yaml
+    params:
+      DOCKER_IMAGE: ((ecr_repo))
+      VERSION_FILE: version/version
   - put: deployment-template
     params:
       file: kubernetes-template/release-*.yaml

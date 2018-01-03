@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: greet-service
-        image: 102184001161.dkr.ecr.us-east-1.amazonaws.com/tolley/greet-service:
+        image: {{env.Getenv "DOCKER_IMAGE"}}:{{env.Getenv "VERSION"}}
         ports:
         - containerPort: 8080
         env:
