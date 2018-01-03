@@ -65,15 +65,16 @@ jobs:
   - get: version
     passed: [publish-image]
   - get: greet-service
-    trigger: true
     passed: [publish-image]
   - get: greetservice-image
     passed: [publish-image]
+    trigger: true
   - task: assemble-template
     file: greet-service/greet/ci/tasks/assemble-template.yaml
     params:
       DOCKER_IMAGE: ((ecr_repo))
       VERSION_FILE: version/version
+      DIGEST_FILE: greetservice-image/digest
   - put: deployment-template
     params:
       file: kubernetes-template/release-*.yaml

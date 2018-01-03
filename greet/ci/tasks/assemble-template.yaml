@@ -10,6 +10,7 @@ image_resource:
 params:
   DOCKER_IMAGE:
   VERSION_FILE:
+  DIGEST_FILE:
 
 inputs:
 - name: version
