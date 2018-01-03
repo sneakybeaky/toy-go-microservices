@@ -47,6 +47,14 @@ resources:
     access_key_id: ((aws_s3_access_key_id))
     secret_access_key: ((aws_s3_secret_access_key))
 
+- name: deployed-template
+  type: s3
+  source:
+    bucket: ((aws_s3_bucket_name))
+    regexp: k8s/greet-service/deployed/release-(.*).yaml
+    access_key_id: ((aws_s3_access_key_id))
+    secret_access_key: ((aws_s3_secret_access_key))
+
 
 jobs:
 - name: publish-image
@@ -87,5 +95,7 @@ jobs:
     params:
       kubectl: apply -f deployment-template/release-*.yaml
       wait_until_ready_selector: app=greet-service
-
+  - put: deployed-template
+    params:
+      file: deployment-template/release-*.yaml
 
