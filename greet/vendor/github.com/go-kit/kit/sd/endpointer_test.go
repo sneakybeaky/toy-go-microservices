@@ -1,4 +1,4 @@
-package sd
+package sd_test
 
 import (
 	"io"

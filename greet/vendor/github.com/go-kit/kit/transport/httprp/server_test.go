@@ -1,4 +1,4 @@
-package httprp
+package httprp_test
 
 import (
 	"context"

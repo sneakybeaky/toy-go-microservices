@@ -1,6 +1,6 @@
 // +build go1.9
 
-package stack
+package stack_test
 
 import (
 	"runtime"

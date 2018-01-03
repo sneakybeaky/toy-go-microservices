@@ -4,7 +4,7 @@
 
 // +build go1.9
 
-package httpproxy
+package httpproxy_test
 
 import "testing"
 

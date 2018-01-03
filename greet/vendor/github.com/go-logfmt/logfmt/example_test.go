@@ -1,4 +1,4 @@
-package logfmt
+package logfmt_test
 
 import (
 	"errors"

@@ -39,6 +39,14 @@ resources:
     secret_access_key: ((aws_s3_secret_access_key))
     initial_version: 0.0.0
 
+- name: deployment-template
+  type: s3
+  source:
+    bucket: ((aws_s3_bucket_name))
+    regexp: k8s/greet-service/release-(.*).yaml
+    access_key_id: ((aws_s3_access_key_id))
+    secret_access_key: ((aws_s3_secret_access_key))
+
 
 jobs:
 - name: publish-image
@@ -52,19 +60,20 @@ jobs:
       build: greet-service/greet
       tag: version/version
       tag_as_latest: true
+  - task: assemble-template
+    file: greet-service/greet/ci/tasks/assemble-template.yaml
+  - put: deployment-template
+    params:
+      file: kubernetes-template/release-*.yaml
 
 
 - name: deploy
   plan:
-  - get: version
+  - get: deployment-template
     passed: [publish-image]
-  - get: greet-service
-    passed: [publish-image]
-  - task: assemble-template
-    file: greet-service/greet/ci/tasks/assemble-template.yaml
   - put: kubernetes-production
     params:
-      kubectl: apply -f kubernetes-template/deploy.yaml
-      wait_until_ready_selector: app=front-service
+      kubectl: apply -f deployment-template/release-*.yaml
+      wait_until_ready_selector: app=greet-service
 
 

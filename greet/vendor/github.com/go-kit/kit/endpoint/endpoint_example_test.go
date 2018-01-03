@@ -1,4 +1,4 @@
-package endpoint
+package endpoint_test
 
 import (
 	"context"

@@ -1,4 +1,4 @@
-package circuitbreaker
+package circuitbreaker_test
 
 import (
 	"io/ioutil"

@@ -4,7 +4,7 @@
 
 // +build go1.9
 
-package ipv4
+package ipv4_test
 
 import (
 	"bytes"

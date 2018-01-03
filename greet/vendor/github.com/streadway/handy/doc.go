@@ -1,4 +1,4 @@
 /*
 Package handy organizes some useful http server handler filters or handlers for reuse.
 */
-package handy
+package documentation

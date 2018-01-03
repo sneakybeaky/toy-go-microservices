@@ -1,4 +1,4 @@
-package opentracing
+package opentracing_test
 
 import (
 	"context"

@@ -4,7 +4,7 @@
 
 // +build h2demo
 
-package h2demo
+package main
 
 import (
 	"bytes"
