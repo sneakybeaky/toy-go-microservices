@@ -19,3 +19,15 @@ spec:
         image: {{env.Getenv "DOCKER_IMAGE"}}@{{env.Getenv "DIGEST"}}
         ports:
         - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: stringsvc
+spec:
+  selector:
+    app: string-service
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
