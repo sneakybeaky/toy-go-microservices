@@ -22,3 +22,16 @@ spec:
         env:
         - name: stringsvc
           value: "http://stringsvc:8080"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: greet
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: greet-service
+  type: LoadBalancer
