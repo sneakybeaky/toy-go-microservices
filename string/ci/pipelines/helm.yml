@@ -26,6 +26,14 @@ resources:
     username: ((dockerhub_username))
     password: ((dockerhub_password))
 
+- name: stringservice-helm
+  type: helm
+  source:
+    cluster_url: https://kubernetes
+    cluster_ca: ((k8s_ca))
+    token: ((k8s_bearer_token))
+    release: string-service
+
 jobs:
 - name: publish-image
   plan:
@@ -41,5 +49,19 @@ jobs:
       tag_as_latest: true
 
 
-
+- name: deploy
+  plan:
+  - aggregate:
+    - get: stringservice-image
+      passed: [publish-image]
+    - get: string-service
+      passed: [publish-image]
+ - task: package-chart
+    file: string-service/string/ci/tasks/package-chart.yaml
+  - put: stringservice-helm
+    params:
+      chart: helm-chart/chart.tgz
+      override_values:
+      - key: image.digest
+        path: stringservice-image/digest
 
