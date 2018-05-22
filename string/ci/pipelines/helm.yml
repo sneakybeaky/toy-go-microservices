@@ -19,14 +19,14 @@ resources:
     paths:
     - string/*
 
-- name: greetservice-image
+- name: stringservice-image
   type: docker-image
   source:
     repository: ninedemons/string
     username: ((dockerhub_username))
     password: ((dockerhub_password))
 
-- name: greetservice-helm
+- name: stringservice-helm
   type: helm
   source:
     cluster_url: https://kubernetes.default.svc
@@ -42,7 +42,7 @@ jobs:
       params: { save: true }
     - get: string-service
       trigger: true
-  - put: greetservice-image
+  - put: stringservice-image
     params:
       load_base: golang-image
       build: string-service/string
@@ -51,16 +51,16 @@ jobs:
 - name: deploy
   plan:
   - aggregate:
-    - get: greetservice-image
+    - get: stringservice-image
       passed: [publish-image]
     - get: string-service
       passed: [publish-image]
   - task: package-chart
     file: string-service/string/ci/tasks/package-chart.yaml
-  - put: greetservice-helm
+  - put: stringservice-helm
     params:
       chart: helm-chart/chart.tgz
       override_values:
       - key: image.digest
-        path: greetservice-image/digest
+        path: stringservice-image/digest
 
