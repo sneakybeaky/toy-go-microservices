@@ -17,7 +17,7 @@ import (
 func main() {
 	var (
 		listen    = flag.String("listen", ":8080", "HTTP listen address")
-		stringservice = flag.String("stringservice", "localhost:8181", "Optional comma-separated list of URLs for string service")
+		stringservice = flag.String("greetservice", "localhost:8181", "Optional comma-separated list of URLs for string service")
 	)
 	flag.Parse()
 
@@ -61,6 +61,6 @@ func main() {
 	http.Handle("/greet", greetingHandler)
 	http.Handle("/metrics", promhttp.Handler())
 	logger.Log("msg", "HTTP", "addr", *listen)
-	logger.Log("msg", "stringservice", "endpoints", *stringservice)
+	logger.Log("msg", "greetservice", "endpoints", *stringservice)
 	logger.Log("err", http.ListenAndServe(*listen, nil))
 }

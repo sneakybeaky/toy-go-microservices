@@ -7,6 +7,8 @@ metadata:
     chart: {{ template "greetservice.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+  annotations:
+    prometheus.io/probe: "true"
 spec:
   type: {{ .Values.service.type }}
   ports:

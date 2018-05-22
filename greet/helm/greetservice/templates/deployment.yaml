@@ -2,6 +2,9 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: {{ template "greetservice.fullname" . }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8080"
   labels:
     app: {{ template "greetservice.name" . }}
     chart: {{ template "greetservice.chart" . }}
@@ -31,6 +34,9 @@ spec:
             httpGet:
               path: /metrics
               port: http
+          env:
+            - name: stringsvc
+              value: "http://string-service-stringservice:80"
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}

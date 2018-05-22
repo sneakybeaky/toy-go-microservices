@@ -5,7 +5,7 @@
 replicaCount: 2
 
 image:
-  repository: ninedemons/string
+  repository: ninedemons/greet
   digest: sha256:fbc4c181796ce1629f35054c9dadf7217120d11b7a0135a5261138beae6419f1
   pullPolicy: IfNotPresent
 

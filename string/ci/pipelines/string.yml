@@ -14,7 +14,7 @@ resources:
     paths:
     - string/*
 
-- name: stringservice-image
+- name: greetservice-image
   type: docker-image
   source:
     repository: ((ecr_repo))
@@ -63,7 +63,7 @@ jobs:
     trigger: true
   - put: version
     params: {bump: patch}
-  - put: stringservice-image
+  - put: greetservice-image
     params:
       build: string-service/string
       tag: version/version
@@ -74,7 +74,7 @@ jobs:
     passed: [publish-image]
   - get: string-service
     passed: [publish-image]
-  - get: stringservice-image
+  - get: greetservice-image
     passed: [publish-image]
     trigger: true
   - task: assemble-template
@@ -82,7 +82,7 @@ jobs:
     params:
       DOCKER_IMAGE: ((ecr_repo))
       VERSION_FILE: version/version
-      DIGEST_FILE: stringservice-image/digest
+      DIGEST_FILE: greetservice-image/digest
   - put: deployment-template
     params:
       file: kubernetes-template/release-*.yaml

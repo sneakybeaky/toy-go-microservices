@@ -14,7 +14,7 @@ params:
 
 inputs:
 - name: version
-- name: stringservice-image
+- name: greetservice-image
 - name: string-service
   path: source
 

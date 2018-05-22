@@ -11,18 +11,18 @@ resources:
     repository: golang
     tag: 1.9
 
-- name: string-service
+- name: greet-service
   type: git
   source:
     uri: https://github.com/sneakybeaky/toy-go-microservices.git
     branch: master
     paths:
-    - string/*
+    - greet/*
 
 - name: greetservice-image
   type: docker-image
   source:
-    repository: ninedemons/string
+    repository: ninedemons/greet
     username: ((dockerhub_username))
     password: ((dockerhub_password))
 
@@ -32,7 +32,7 @@ resources:
     cluster_url: https://kubernetes.default.svc
     cluster_ca: ((k8s_ca))
     token: ((k8s_bearer_token))
-    release: string-service
+    release: greet-service
 
 jobs:
 - name: publish-image
@@ -40,12 +40,12 @@ jobs:
   - aggregate:
     - get: golang-image
       params: { save: true }
-    - get: string-service
+    - get: greet-service
       trigger: true
   - put: greetservice-image
     params:
       load_base: golang-image
-      build: string-service/string
+      build: greet-service/greet
       tag_as_latest: true
 
 - name: deploy
@@ -53,10 +53,10 @@ jobs:
   - aggregate:
     - get: greetservice-image
       passed: [publish-image]
-    - get: string-service
+    - get: greet-service
       passed: [publish-image]
   - task: package-chart
-    file: string-service/string/ci/tasks/package-chart.yaml
+    file: greet-service/greet/ci/tasks/package-chart.yaml
   - put: greetservice-helm
     params:
       chart: helm-chart/chart.tgz
