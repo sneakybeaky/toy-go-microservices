@@ -29,7 +29,7 @@ resources:
 - name: stringservice-helm
   type: helm
   source:
-    cluster_url: https://kubernetes
+    cluster_url: https://kubernetes.default.svc
     cluster_ca: ((k8s_ca))
     token: ((k8s_bearer_token))
     release: string-service
@@ -48,7 +48,6 @@ jobs:
       build: string-service/string
       tag_as_latest: true
 
-
 - name: deploy
   plan:
   - aggregate:
@@ -56,7 +55,7 @@ jobs:
       passed: [publish-image]
     - get: string-service
       passed: [publish-image]
- - task: package-chart
+  - task: package-chart
     file: string-service/string/ci/tasks/package-chart.yaml
   - put: stringservice-helm
     params:
