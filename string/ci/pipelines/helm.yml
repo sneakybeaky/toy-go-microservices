@@ -1,0 +1,44 @@
+resource_types:
+- name: helm
+  type: docker-image
+  source:
+    repository: linkyard/concourse-helm-resource
+
+resources:
+- name: golang-image
+  type: docker-image
+  source:
+    repository: golang
+    tag: 1.9
+
+- name: string-service
+  type: git
+  source:
+    uri: https://github.com/sneakybeaky/toy-go-microservices.git
+    branch: master
+    paths:
+    - string/*
+
+- name: stringservice-image
+  type: docker-image
+  source:
+    repository: ninedemons/string
+    username: ((dockerhub_username))
+    password: ((dockerhub_password))
+
+jobs:
+- name: publish-image
+  plan:
+  - aggregate:
+    - get: golang-image
+    - get: string-service
+      trigger: true
+  - put: stringservice-image
+    params:
+      load_base: golang-image
+      build: string-service/string
+      tag_as_latest: true
+
+
+
+
