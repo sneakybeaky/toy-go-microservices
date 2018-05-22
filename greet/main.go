@@ -17,7 +17,7 @@ import (
 func main() {
 	var (
 		listen    = flag.String("listen", ":8080", "HTTP listen address")
-		stringservice = flag.String("greetservice", "localhost:8181", "Optional comma-separated list of URLs for string service")
+		stringservice = flag.String("stringservice", "localhost:8181", "Optional comma-separated list of URLs for string service")
 	)
 	flag.Parse()
 
