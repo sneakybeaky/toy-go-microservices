@@ -1,22 +1,22 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "greetservice.fullname" . }}
+  name: {{ template "stringservice.fullname" . }}
   labels:
-    app: {{ template "greetservice.name" . }}
-    chart: {{ template "greetservice.chart" . }}
+    app: {{ template "stringservice.name" . }}
+    chart: {{ template "stringservice.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "greetservice.name" . }}
+      app: {{ template "stringservice.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "greetservice.name" . }}
+        app: {{ template "stringservice.name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:
