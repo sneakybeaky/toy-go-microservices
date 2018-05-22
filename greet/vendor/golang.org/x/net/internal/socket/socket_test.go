@@ -4,7 +4,7 @@
 
 // +build darwin dragonfly freebsd linux netbsd openbsd solaris windows
 
-package socket
+package socket_test
 
 import (
 	"net"

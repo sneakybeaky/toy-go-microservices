@@ -1,7 +1,5 @@
-#!/bin/ash
+#!/bin/sh
 
-set -e -x
+set -e -x -u
 
-VERSION=`cat version/version`
-
-sed -r 's/^(.*image:.*)(test-back-service:.*$)/\1test-back-service:'"$VERSION"'/' source/string/k8s/deployment-template.yaml > kubernetes-template/deploy.yaml
+/gomplate -f source/string/k8s/deployment-template.gomplate.yaml -o kubernetes-template/release-`cat $VERSION_FILE`.yaml

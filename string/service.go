@@ -17,7 +17,7 @@ func (stringService) Uppercase(s string) (string, error) {
 	if s == "" {
 		return "", ErrEmpty
 	}
-	return strings.ToUpper(s), nil
+	return strings.ToUpper(s) + " hello world", nil
 }
 
 func (stringService) Count(s string) int {

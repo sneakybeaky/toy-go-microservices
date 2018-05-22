@@ -1,4 +1,4 @@
-package term
+package term_test
 
 import (
 	"bytes"

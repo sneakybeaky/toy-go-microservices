@@ -4,7 +4,7 @@
 
 // +build !go1.9
 
-package ipv6
+package ipv6_test
 
 import (
 	"bytes"

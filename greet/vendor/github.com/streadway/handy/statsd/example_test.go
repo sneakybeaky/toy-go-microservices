@@ -3,7 +3,7 @@
 // license that can be found in the README file.
 // Source code and contact info at http://github.com/streadway/handy
 
-package statsd
+package statsd_test
 
 import (
 	"github.com/streadway/handy/statsd"

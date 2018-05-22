@@ -5,7 +5,7 @@
 // +build go1.9
 // +build darwin dragonfly freebsd linux netbsd openbsd solaris
 
-package socket
+package socket_test
 
 import (
 	"bytes"

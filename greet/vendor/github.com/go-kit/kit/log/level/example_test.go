@@ -1,4 +1,4 @@
-package level
+package level_test
 
 import (
 	"errors"

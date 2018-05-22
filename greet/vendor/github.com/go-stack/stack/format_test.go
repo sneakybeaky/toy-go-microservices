@@ -1,6 +1,6 @@
 // +build go1.2
 
-package stack
+package stack_test
 
 import (
 	"fmt"

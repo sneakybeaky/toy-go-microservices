@@ -1,6 +1,6 @@
 // +build go1.1
 
-package quantile
+package quantile_test
 
 import (
 	"bufio"

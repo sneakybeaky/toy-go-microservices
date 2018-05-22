@@ -31,7 +31,7 @@
 
 // +build go1.7
 
-package proto
+package proto_test
 
 import (
 	"fmt"
