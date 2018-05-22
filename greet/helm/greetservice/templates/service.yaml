@@ -19,3 +19,4 @@ spec:
   selector:
     app: {{ template "greetservice.name" . }}
     release: {{ .Release.Name }}
+  type: LoadBalancer
