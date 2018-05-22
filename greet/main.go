@@ -17,7 +17,7 @@ import (
 func main() {
 	var (
 		listen    = flag.String("listen", ":8080", "HTTP listen address")
-		stringservice = flag.String("stringservice", "localhost:8181", "Optional comma-separated list of URLs for string service")
+		greetservice = flag.String("greetservice", "localhost:8181", "Optional comma-separated list of URLs for greet service")
 	)
 	flag.Parse()
 
@@ -28,26 +28,26 @@ func main() {
 	fieldKeys := []string{"method", "error"}
 	requestCount := kitprometheus.NewCounterFrom(stdprometheus.CounterOpts{
 		Namespace: "my_group",
-		Subsystem: "string_service",
+		Subsystem: "greet_service",
 		Name:      "request_count",
 		Help:      "Number of requests received.",
 	}, fieldKeys)
 	requestLatency := kitprometheus.NewSummaryFrom(stdprometheus.SummaryOpts{
 		Namespace: "my_group",
-		Subsystem: "string_service",
+		Subsystem: "greet_service",
 		Name:      "request_latency_microseconds",
 		Help:      "Total duration of requests in microseconds.",
 	}, fieldKeys)
 	countResult := kitprometheus.NewSummaryFrom(stdprometheus.SummaryOpts{
 		Namespace: "my_group",
-		Subsystem: "string_service",
+		Subsystem: "greet_service",
 		Name:      "count_result",
 		Help:      "The result of each count method.",
 	}, []string{})
 
 	var svc GreetingService
 	svc = greetingService{}
-	svc = uppercaseMiddleware(context.Background(), *stringservice, logger)(svc)
+	svc = uppercaseMiddleware(context.Background(), *greetservice, logger)(svc)
 	svc = loggingMiddleware(logger)(svc)
 	svc = instrumentingMiddleware(requestCount, requestLatency, countResult)(svc)
 
@@ -61,6 +61,6 @@ func main() {
 	http.Handle("/greet", greetingHandler)
 	http.Handle("/metrics", promhttp.Handler())
 	logger.Log("msg", "HTTP", "addr", *listen)
-	logger.Log("msg", "greetservice", "endpoints", *stringservice)
+	logger.Log("msg", "greetservice", "endpoints", *greetservice)
 	logger.Log("err", http.ListenAndServe(*listen, nil))
 }
