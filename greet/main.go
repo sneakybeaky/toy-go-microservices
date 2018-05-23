@@ -17,7 +17,7 @@ import (
 func main() {
 	var (
 		listen    = flag.String("listen", ":8080", "HTTP listen address")
-		greetservice = flag.String("greetservice", "localhost:8181", "Optional comma-separated list of URLs for greet service")
+		stringservice = flag.String("greetservice", "localhost:8181", "Optional comma-separated list of URLs for greet service")
 	)
 	flag.Parse()
 
@@ -47,7 +47,7 @@ func main() {
 
 	var svc GreetingService
 	svc = greetingService{}
-	svc = uppercaseMiddleware(context.Background(), *greetservice, logger)(svc)
+	svc = uppercaseMiddleware(context.Background(), *stringservice, logger)(svc)
 	svc = loggingMiddleware(logger)(svc)
 	svc = instrumentingMiddleware(requestCount, requestLatency, countResult)(svc)
 
@@ -61,6 +61,6 @@ func main() {
 	http.Handle("/greet", greetingHandler)
 	http.Handle("/metrics", promhttp.Handler())
 	logger.Log("msg", "HTTP", "addr", *listen)
-	logger.Log("msg", "greetservice", "endpoints", *greetservice)
+	logger.Log("msg", "greetservice", "endpoints", *stringservice)
 	logger.Log("err", http.ListenAndServe(*listen, nil))
 }
